@@ -37,6 +37,7 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&s[i]);
 	return (0);
 }
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*total;
