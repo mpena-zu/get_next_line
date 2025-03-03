@@ -101,8 +101,8 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	str = (char *)malloc(ft_strlen(s) + 1);
-	if (str == 0)
-		return (0);
+	if (!str)
+		return (NULL);
 	while (i < ft_strlen(s))
 	{
 		str[i] = s[i];

@@ -30,6 +30,7 @@ static char	*read_line(int fd, char *str)
 		if (bytes_read < 0)
 		{
 			free(buffer);
+			free(str);
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
@@ -52,6 +53,11 @@ static char	*get_line(char *str)
 	while (str[len] != '\n' && str[len])
 		len++;
 	new_str = ft_substr(str, 0, len + 1);
+	if (!new_str)
+	{
+		free(str);
+		return (NULL);
+	}
 	return (new_str);
 }
 
@@ -69,6 +75,11 @@ static char	*get_rest(char *str)
 		return (NULL);
 	}
 	rest = ft_substr(str, len + 1, (ft_strlen(str) - (len)));
+	if (!rest)
+	{
+		free(str);
+		return (NULL);
+	}
 	free(str);
 	return (rest);
 }
@@ -88,15 +99,19 @@ char	*get_next_line(int fd)
 	if (!str[0])
 	{
 		free(str);
-		str = NULL;
-		return (str);
+		return (str = NULL, NULL);
 	}
 	line = get_line(str);
 	str = get_rest(str);
+	if (!str)
+	{
+		free(str);
+		str = NULL;
+	}
 	return (line);
 }
-
-/* int main(void)
+/* 
+int main(void)
 {
 	int     fd = open("ejemplo.txt", O_RDONLY); 
 	char    *word;
