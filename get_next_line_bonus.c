@@ -87,42 +87,64 @@ static char	*get_rest(char *str)
 char	*get_next_line(int fd)
 {
 	char			*line;
-	static char		*str;
+	static char		*str[1024];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!str)
-		str = ft_strdup("");
-	str = read_line(fd, str);
-	if (!str)
+	if (!str[fd])
+		str[fd] = ft_strdup("");
+	str[fd] = read_line(fd, str[fd]);
+	if (!str[fd])
 		return (NULL);
-	if (!str[0])
+	if (!str[fd][0])
 	{
-		free(str);
-		return (str = NULL, NULL);
+		free(str[fd]);
+		return (str[fd] = NULL, NULL);
 	}
-	line = get_line(str);
-	str = get_rest(str);
-	if (!str)
+	line = get_line(str[fd]);
+	str[fd] = get_rest(str[fd]);
+	if (!str[fd])
 	{
-		free(str);
-		str = NULL;
+		free(str[fd]);
+		str[fd] = NULL;
 	}
 	return (line);
 }
 
 /* int main(void)
 {
-	int     fd = open("ejemplo.txt", O_RDONLY); 
-	char    *word;
+	int     fd1 = open("ejemplo1.txt", O_RDONLY); 
+	int		fd2 = open("ejemplo2.txt", O_RDONLY);
+	int		fd3 = open("ejemplo3.txt", O_RDONLY);
+	char    *word1;
+	char	*word2;
+	char	*word3;
 
-	word = get_next_line(fd);
-	while (word != NULL)
+	while (1)
 	{
-		printf("%s", word);
-		free(word);
-		word = get_next_line(fd);
+		word1 = get_next_line(fd1);
+		word2 = get_next_line(fd2);
+		word3 = get_next_line(fd3);
+		if (word1 == NULL && word2 == NULL && word3 == NULL)
+        	break;
+		if (word1 != NULL)
+		{
+			printf("%s", word1);
+			free(word1);
+		}
+		if (word2 != NULL)
+		{
+			printf("%s", word2);
+			free(word2);
+		}
+		if (word3 != NULL)
+		{
+			printf("%s", word3);
+			free(word3);
+		}
 	}
-	close(fd);
+	close(fd1);
+	close(fd2);
+	close(fd3);
 	return (0);
 } */
