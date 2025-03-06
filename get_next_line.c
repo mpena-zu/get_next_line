@@ -110,19 +110,3 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
-
-/* int main(void)
-{
-	int     fd = open("ejemplo.txt", O_RDONLY); 
-	char    *word;
-
-	word = get_next_line(fd);
-	while (word != NULL)
-	{
-		printf("%s", word);
-		free(word);
-		word = get_next_line(fd);
-	}
-	close(fd);
-	return (0);
-} */
